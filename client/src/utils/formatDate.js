@@ -1,0 +1,9 @@
+export const formatDate = (date) => {
+  if (!date) return ''
+  return new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+export const isOverdue = (date) => {
+  if (!date) return false
+  return new Date(date) < new Date()
+}
