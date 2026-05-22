@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -35,9 +36,13 @@ const io = new Server(httpServer, {
 // Register all socket events
 socketHandler(io);
 
-// Middleware
+// ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
+
+// Serve uploaded avatar images statically
+// e.g. GET http://localhost:5000/uploads/avatar_123.jpg
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Make io accessible in controllers via req.io
 app.use((req, res, next) => {
@@ -45,7 +50,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Mount all routes
+// ─── Routes ───────────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/columns', columnRoutes);
@@ -56,7 +61,7 @@ app.use('/api/notifications', notificationRoutes);
 // Health check
 app.get('/', (req, res) => res.json({ message: 'API is running' }));
 
-// Error handling (must be last)
+// ─── Error Handling (must be last) ───────────────────────────────────────────
 app.use(notFound);
 app.use(errorHandler);
 
