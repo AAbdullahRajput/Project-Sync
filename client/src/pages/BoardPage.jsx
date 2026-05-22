@@ -309,15 +309,13 @@ export default function BoardPage() {
   const totalCards = Object.values(cards).reduce((s, arr) => s + arr.length, 0)
 
   if (loading) {
-    return (
-      <div style={s.loadingPage}>
-        <div style={s.loadingInner}>
-          <Logo />
-          <p style={s.loadingText}>Loading board...</p>
-        </div>
-      </div>
-    )
-  }
+  return (
+    <div style={{ minHeight: '100vh', background: '#080b14', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 16 }}>
+      <Logo />
+      <p style={{ color: '#8892b4', fontSize: 14, fontFamily: 'DM Sans, sans-serif' }}>Loading board...</p>
+    </div>
+  )
+}
 
   return (
     <>
