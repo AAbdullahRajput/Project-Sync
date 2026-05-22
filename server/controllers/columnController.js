@@ -1,17 +1,17 @@
 const Column = require('../models/Column');
 
 // Get all columns for a project sorted by order
-const getColumns = async (req, res, next) => {
+const getColumns = async (req, res) => {
   try {
     const columns = await Column.find({ project: req.params.projectId }).sort('order');
     res.json(columns);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Create a new column in a project
-const createColumn = async (req, res, next) => {
+const createColumn = async (req, res) => {
   try {
     const { name, projectId } = req.body;
     const lastColumn = await Column.findOne({ project: projectId }).sort('-order');
@@ -19,44 +19,42 @@ const createColumn = async (req, res, next) => {
     const column = await Column.create({ name, project: projectId, order });
     res.status(201).json(column);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Rename a column
-const updateColumn = async (req, res, next) => {
+const updateColumn = async (req, res) => {
   try {
     const column = await Column.findById(req.params.id);
     if (!column) {
-      res.status(404);
-      return next(new Error('Column not found'));
+      return res.status(404).json({ message: 'Column not found' });
     }
     column.name = req.body.name || column.name;
     column.color = req.body.color || column.color;
     const updated = await column.save();
     res.json(updated);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Delete a column
-const deleteColumn = async (req, res, next) => {
+const deleteColumn = async (req, res) => {
   try {
     const column = await Column.findById(req.params.id);
     if (!column) {
-      res.status(404);
-      return next(new Error('Column not found'));
+      return res.status(404).json({ message: 'Column not found' });
     }
     await column.deleteOne();
     res.json({ message: 'Column deleted' });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Reorder columns after drag-and-drop → receives array of { id, order }
-const reorderColumns = async (req, res, next) => {
+const reorderColumns = async (req, res) => {
   try {
     const { columns } = req.body; // [{ id: '...', order: 0 }, ...]
     const updates = columns.map((col) =>
@@ -65,7 +63,7 @@ const reorderColumns = async (req, res, next) => {
     await Promise.all(updates);
     res.json({ message: 'Columns reordered' });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
