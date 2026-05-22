@@ -1,14 +1,12 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
-// Register new user
-const registerUser = async (req, res, next) => {
+const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
-      res.status(400);
-      return next(new Error('User already exists'));
+      return res.status(400).json({ message: 'User already exists' });
     }
     const user = await User.create({ name, email, password });
     res.status(201).json({
@@ -19,12 +17,11 @@ const registerUser = async (req, res, next) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Login → check email exists → compare password → return token
-const loginUser = async (req, res, next) => {
+const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
@@ -37,27 +34,21 @@ const loginUser = async (req, res, next) => {
         token: generateToken(user._id),
       });
     } else {
-      res.status(401);
-      next(new Error('Invalid email or password'));
+      res.status(401).json({ message: 'Invalid email or password' });
     }
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
-// Get current logged in user (token already verified by middleware)
 const getMe = async (req, res) => {
   res.json(req.user);
 };
 
-// Update name, bio, avatar, or password
-const updateProfile = async (req, res, next) => {
+const updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    if (!user) {
-      res.status(404);
-      return next(new Error('User not found'));
-    }
+    if (!user) return res.status(404).json({ message: 'User not found' });
     user.name = req.body.name || user.name;
     user.bio = req.body.bio || user.bio;
     user.avatar = req.body.avatar || user.avatar;
@@ -72,7 +63,7 @@ const updateProfile = async (req, res, next) => {
       token: generateToken(updated._id),
     });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
