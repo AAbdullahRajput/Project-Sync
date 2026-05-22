@@ -18,8 +18,9 @@ const registerUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+  console.log('REGISTER ERROR:', error.message, error.stack);
+  res.status(500).json({ message: error.message });
+}
 };
 
 // Login → check email exists → compare password → return token
