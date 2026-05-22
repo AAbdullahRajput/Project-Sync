@@ -1,19 +1,19 @@
 const Comment = require('../models/Comment');
 
 // Get all comments for a card
-const getComments = async (req, res, next) => {
+const getComments = async (req, res) => {
   try {
     const comments = await Comment.find({ card: req.params.cardId })
       .populate('author', 'name avatar')
       .sort('createdAt');
     res.json(comments);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Post a new comment on a card
-const createComment = async (req, res, next) => {
+const createComment = async (req, res) => {
   try {
     const comment = await Comment.create({
       text: req.body.text,
@@ -23,47 +23,43 @@ const createComment = async (req, res, next) => {
     const populated = await comment.populate('author', 'name avatar');
     res.status(201).json(populated);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Edit your own comment → marks isEdited flag true
-const updateComment = async (req, res, next) => {
+const updateComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
     if (!comment) {
-      res.status(404);
-      return next(new Error('Comment not found'));
+      return res.status(404).json({ message: 'Comment not found' });
     }
     if (comment.author.toString() !== req.user._id.toString()) {
-      res.status(403);
-      return next(new Error('Not authorized to edit this comment'));
+      return res.status(403).json({ message: 'Not authorized to edit this comment' });
     }
     comment.text = req.body.text || comment.text;
     comment.isEdited = true;
     const updated = await comment.save();
     res.json(updated);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
 // Delete your own comment
-const deleteComment = async (req, res, next) => {
+const deleteComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
     if (!comment) {
-      res.status(404);
-      return next(new Error('Comment not found'));
+      return res.status(404).json({ message: 'Comment not found' });
     }
     if (comment.author.toString() !== req.user._id.toString()) {
-      res.status(403);
-      return next(new Error('Not authorized to delete this comment'));
+      return res.status(403).json({ message: 'Not authorized to delete this comment' });
     }
     await comment.deleteOne();
     res.json({ message: 'Comment deleted' });
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
