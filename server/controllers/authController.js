@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const generateToken = require('../utils/generateToken');
 
+// Register new user
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -21,6 +22,7 @@ const registerUser = async (req, res) => {
   }
 };
 
+// Login → check email exists → compare password → return token
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -41,14 +43,18 @@ const loginUser = async (req, res) => {
   }
 };
 
+// Get current logged in user (token already verified by middleware)
 const getMe = async (req, res) => {
   res.json(req.user);
 };
 
+// Update name, bio, avatar, or password
 const updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     user.name = req.body.name || user.name;
     user.bio = req.body.bio || user.bio;
     user.avatar = req.body.avatar || user.avatar;
