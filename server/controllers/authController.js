@@ -82,9 +82,9 @@ const updateProfile = async (req, res) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    user.name = req.body.name || user.name;
-    user.bio = req.body.bio || user.bio;
-    user.avatar = req.body.avatar || user.avatar;
+    if (req.body.name !== undefined) user.name = req.body.name
+    if (req.body.bio !== undefined) user.bio = req.body.bio
+    if (req.body.avatar !== undefined) user.avatar = req.body.avatar
     if (req.body.password) user.password = req.body.password;
 
     const updated = await user.save();
