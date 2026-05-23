@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 import api from '../services/api'
@@ -180,7 +180,7 @@ const LANGUAGES = ['English', 'French', 'German', 'Spanish', 'Portuguese', 'Arab
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ProfilePage() {
-  const { user, logout } = useAuth()
+  const { user, logout, updateUser } = useAuth()
   const location = useLocation()
   const fileInputRef = useRef(null)
 
@@ -225,7 +225,11 @@ export default function ProfilePage() {
   // Danger zone
   const [deleteConfirm, setDeleteConfirm] = useState('')
   const [showDeleteModal, setShowDeleteModal] = useState(false)
-  const [avatarPreview, setAvatarPreview] = useState(user?.avatar || '')
+  const [avatarPreview, setAvatarPreview] = useState('')
+
+useEffect(() => {
+  if (user?.avatar) setAvatarPreview(user.avatar)
+}, [user?.avatar])
 
   const navLinks = [
     { to: '/dashboard', icon: <Icons.Dashboard />, label: 'Dashboard' },
@@ -282,9 +286,12 @@ export default function ProfilePage() {
   reader.onload = (ev) => {
     const base64 = ev.target.result
     setAvatarPreview(base64)
-    api.put('/auth/profile', { avatar: base64 })
-      .then(() => toast.success('Avatar updated!'))
-      .catch(() => toast.error('Failed to save avatar'))
+api.put('/auth/profile', { avatar: base64 })
+  .then(() => {
+    updateUser({ avatar: base64 })
+    toast.success('Avatar updated!')
+  })
+  .catch(() => toast.error('Failed to save avatar'))
   }
   reader.readAsDataURL(file)
 }
