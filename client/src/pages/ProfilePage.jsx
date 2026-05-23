@@ -225,6 +225,7 @@ export default function ProfilePage() {
   // Danger zone
   const [deleteConfirm, setDeleteConfirm] = useState('')
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [avatarPreview, setAvatarPreview] = useState(user?.avatar || '')
 
   const navLinks = [
     { to: '/dashboard', icon: <Icons.Dashboard />, label: 'Dashboard' },
@@ -271,20 +272,22 @@ export default function ProfilePage() {
     }
   }
 
-  const handleAvatarChange = async (e) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    if (!file.type.startsWith('image/')) { toast.error('Please select an image file'); return }
-    if (file.size > 5 * 1024 * 1024) { toast.error('Image must be under 5MB'); return }
-    const formData = new FormData()
-    formData.append('avatar', file)
-    try {
-      await api.post('/auth/avatar', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-      toast.success('Avatar updated!')
-    } catch {
-      toast.error('Failed to upload avatar')
-    }
+  const handleAvatarChange = (e) => {
+  const file = e.target.files?.[0]
+  if (!file) return
+  if (!file.type.startsWith('image/')) { toast.error('Please select an image file'); return }
+  if (file.size > 5 * 1024 * 1024) { toast.error('Image must be under 5MB'); return }
+
+  const reader = new FileReader()
+  reader.onload = (ev) => {
+    const base64 = ev.target.result
+    setAvatarPreview(base64)
+    api.put('/auth/profile', { avatar: base64 })
+      .then(() => toast.success('Avatar updated!'))
+      .catch(() => toast.error('Failed to save avatar'))
   }
+  reader.readAsDataURL(file)
+}
 
   const handleDeleteAccount = async () => {
     if (deleteConfirm !== user?.email) { toast.error('Email does not match'); return }
@@ -1068,10 +1071,10 @@ export default function ProfilePage() {
               <div className="hero-body">
                 <div className="avatar-wrap">
                   <div className="avatar-circle">
-                    {user?.avatarUrl
-                      ? <img src={user.avatarUrl} alt="avatar" />
-                      : user?.name?.charAt(0).toUpperCase()
-                    }
+                    {avatarPreview
+  ? <img src={avatarPreview} alt="avatar" />
+  : user?.name?.charAt(0).toUpperCase()
+}
                     <div className="avatar-overlay" onClick={() => fileInputRef.current?.click()}>
                       <Icons.Camera />
                     </div>
