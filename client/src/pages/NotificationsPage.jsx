@@ -3,69 +3,98 @@ import { Link } from 'react-router-dom'
 import api from '../services/api'
 import toast from 'react-hot-toast'
 
-// SVG Icons
-const BellIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-  </svg>
-)
-const CheckAllIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="20 6 9 17 4 12"/><polyline points="20 6 13 13"/>
-  </svg>
-)
-const TrashIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
-  </svg>
-)
-const BackIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6"/>
-  </svg>
-)
-const CardIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
-  </svg>
-)
-const CommentIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-  </svg>
-)
-const UserPlusIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
-  </svg>
-)
-const MoveIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/>
+// ─── Icons ────────────────────────────────────────────────────────────────────
+const Icons = {
+  Bell: () => (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+    </svg>
+  ),
+  CheckAll: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  ),
+  Trash: () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3 6 5 6 21 6"/>
+      <path d="M19 6l-1 14H6L5 6"/>
+      <path d="M10 11v6M14 11v6"/>
+      <path d="M9 6V4h6v2"/>
+    </svg>
+  ),
+  ArrowLeft: () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </svg>
+  ),
+  Card: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+      <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+    </svg>
+  ),
+  Comment: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  ),
+  UserPlus: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <line x1="19" y1="8" x2="19" y2="14"/>
+      <line x1="22" y1="11" x2="16" y2="11"/>
+    </svg>
+  ),
+  Move: () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/>
+      <polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+    </svg>
+  ),
+}
+
+// ─── Logo ─────────────────────────────────────────────────────────────────────
+const Logo = () => (
+  <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
+    <rect width="28" height="28" rx="8" fill="url(#npLogoGrad)"/>
+    <path d="M8 14h12M14 8v12" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+    <circle cx="14" cy="14" r="3" fill="white" fillOpacity="0.25"/>
+    <defs>
+      <linearGradient id="npLogoGrad" x1="0" y1="0" x2="28" y2="28">
+        <stop stopColor="#6366f1"/><stop offset="1" stopColor="#8b5cf6"/>
+      </linearGradient>
+    </defs>
   </svg>
 )
 
+// ─── Type config ──────────────────────────────────────────────────────────────
 const typeConfig = {
-  card_assigned: { icon: <CardIcon />, color: '#6366f1', bg: 'rgba(99,102,241,0.15)', label: 'Assigned' },
-  comment_added: { icon: <CommentIcon />, color: '#22c55e', bg: 'rgba(34,197,94,0.15)', label: 'Comment' },
-  member_added:  { icon: <UserPlusIcon />, color: '#f59e0b', bg: 'rgba(245,158,11,0.15)', label: 'Member' },
-  card_moved:    { icon: <MoveIcon />, color: '#3b82f6', bg: 'rgba(59,130,246,0.15)', label: 'Moved' },
+  card_assigned: { icon: <Icons.Card />,    color: '#818cf8', bg: 'rgba(99,102,241,0.14)',  label: 'Assigned' },
+  comment_added: { icon: <Icons.Comment />, color: '#4ade80', bg: 'rgba(34,197,94,0.12)',   label: 'Comment'  },
+  member_added:  { icon: <Icons.UserPlus />,color: '#fbbf24', bg: 'rgba(245,158,11,0.12)',  label: 'Member'   },
+  card_moved:    { icon: <Icons.Move />,    color: '#60a5fa', bg: 'rgba(59,130,246,0.12)',  label: 'Moved'    },
 }
 
+// ─── timeAgo helper ───────────────────────────────────────────────────────────
 function timeAgo(date) {
-  const seconds = Math.floor((Date.now() - new Date(date)) / 1000)
-  if (seconds < 60) return 'just now'
-  const minutes = Math.floor(seconds / 60)
-  if (minutes < 60) return `${minutes}m ago`
-  const hours = Math.floor(minutes / 60)
-  if (hours < 24) return `${hours}h ago`
-  const days = Math.floor(hours / 24)
-  return `${days}d ago`
+  const s = Math.floor((Date.now() - new Date(date)) / 1000)
+  if (s < 60) return 'just now'
+  const m = Math.floor(s / 60)
+  if (m < 60) return `${m}m ago`
+  const h = Math.floor(m / 60)
+  if (h < 24) return `${h}h ago`
+  return `${Math.floor(h / 24)}d ago`
 }
 
+// ─── Component ────────────────────────────────────────────────────────────────
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState([])
   const [loading, setLoading] = useState(true)
+  const [filter, setFilter] = useState('all') // 'all' | 'unread'
 
   useEffect(() => {
     api.get('/notifications')
@@ -76,139 +105,538 @@ export default function NotificationsPage() {
 
   const markAllRead = async () => {
     await api.put('/notifications/read-all')
-    setNotifications(notifications.map(n => ({ ...n, isRead: true })))
+    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })))
     toast.success('All marked as read')
   }
 
   const deleteNotif = async (id) => {
     await api.delete(`/notifications/${id}`)
-    setNotifications(notifications.filter(n => n._id !== id))
+    setNotifications(prev => prev.filter(n => n._id !== id))
   }
 
   const unreadCount = notifications.filter(n => !n.isRead).length
+  const displayed = filter === 'unread'
+    ? notifications.filter(n => !n.isRead)
+    : notifications
 
   return (
-    <div style={styles.page}>
-      {/* Sidebar */}
-      <aside style={styles.sidebar}>
-        <div style={styles.logo}>ProjectSync</div>
-        <nav style={styles.nav}>
-          <Link to="/dashboard" style={styles.navItem}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>
-              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
-            </svg>
-            Dashboard
-          </Link>
-          <div style={styles.navItemActive}>
-            <BellIcon />
-            Notifications
-            {unreadCount > 0 && <span style={styles.badge}>{unreadCount}</span>}
-          </div>
-          <Link to="/profile" style={styles.navItem}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{flexShrink:0}}>
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-            Profile
-          </Link>
-        </nav>
-      </aside>
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap');
 
-      {/* Main */}
-      <main style={styles.main}>
-        {/* Header */}
-        <div style={styles.header}>
-          <div style={styles.headerLeft}>
-            <Link to="/dashboard" style={styles.backLink}>
-              <BackIcon />
-              Dashboard
-            </Link>
-            <div>
-              <h1 style={styles.title}>Notifications</h1>
-              <p style={styles.subtitle}>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'DM Sans', sans-serif; background: #080b14; }
+
+        /* ── Page shell ── */
+        .np-page {
+          min-height: 100vh;
+          background: #080b14;
+          font-family: 'DM Sans', sans-serif;
+          color: #e2e8f0;
+          position: relative;
+          overflow-x: hidden;
+        }
+
+        .np-glow1 {
+          position: fixed; top: -180px; right: -120px;
+          width: 560px; height: 560px;
+          background: radial-gradient(circle, rgba(99,102,241,0.09) 0%, transparent 65%);
+          pointer-events: none; z-index: 0;
+        }
+        .np-glow2 {
+          position: fixed; bottom: -200px; left: -100px;
+          width: 480px; height: 480px;
+          background: radial-gradient(circle, rgba(139,92,246,0.07) 0%, transparent 65%);
+          pointer-events: none; z-index: 0;
+        }
+
+        /* ── Inner ── */
+        .np-inner {
+          position: relative; z-index: 1;
+          max-width: 740px;
+          margin: 0 auto;
+          padding: 0 20px 80px;
+        }
+
+        /* ── Header ── */
+        .np-header {
+          padding: 36px 0 28px;
+          border-bottom: 1px solid rgba(255,255,255,0.07);
+          margin-bottom: 28px;
+        }
+
+        .np-top-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 20px;
+          flex-wrap: wrap;
+        }
+
+        .np-back {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          color: #8892b4;
+          font-size: 13px;
+          font-weight: 500;
+          text-decoration: none;
+          padding: 6px 12px 6px 9px;
+          border-radius: 8px;
+          border: 1px solid rgba(255,255,255,0.08);
+          transition: all 0.18s;
+        }
+        .np-back:hover {
+          color: #e2e8f0;
+          background: rgba(255,255,255,0.05);
+          border-color: rgba(255,255,255,0.14);
+        }
+
+        .np-logo-row {
+          display: flex;
+          align-items: center;
+          gap: 9px;
+          font-family: 'Syne', sans-serif;
+          font-size: 15px;
+          font-weight: 700;
+          color: #ffffff;
+        }
+
+        .np-title-block { margin-bottom: 20px; }
+
+        .np-title {
+          font-family: 'Syne', sans-serif;
+          font-size: 26px;
+          font-weight: 700;
+          color: #ffffff;
+          letter-spacing: -0.5px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 5px;
+        }
+
+        .np-unread-pill {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 24px;
+          height: 22px;
+          background: #6366f1;
+          color: #fff;
+          font-size: 11px;
+          font-weight: 700;
+          border-radius: 100px;
+          padding: 0 7px;
+          font-family: 'DM Sans', sans-serif;
+          letter-spacing: 0;
+        }
+
+        .np-sub {
+          font-size: 13.5px;
+          color: #8892b4;
+        }
+
+        /* ── Controls row ── */
+        .np-controls {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .np-filters {
+          display: flex;
+          gap: 4px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 9px;
+          padding: 3px;
+        }
+
+        .np-filter-btn {
+          background: transparent;
+          border: none;
+          color: #8892b4;
+          font-size: 12.5px;
+          font-weight: 500;
+          font-family: 'DM Sans', sans-serif;
+          padding: 6px 14px;
+          border-radius: 7px;
+          cursor: pointer;
+          transition: all 0.18s;
+          white-space: nowrap;
+        }
+
+        .np-filter-btn.active {
+          background: #0d1020;
+          color: #e2e8f0;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .np-mark-btn {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          background: transparent;
+          border: 1px solid rgba(255,255,255,0.1);
+          color: #94a3c4;
+          border-radius: 8px;
+          padding: 8px 15px;
+          font-size: 12.5px;
+          font-weight: 500;
+          font-family: 'DM Sans', sans-serif;
+          cursor: pointer;
+          transition: all 0.18s;
+          white-space: nowrap;
+        }
+
+        .np-mark-btn:hover {
+          border-color: rgba(99,102,241,0.4);
+          color: #a5b4fc;
+          background: rgba(99,102,241,0.07);
+        }
+
+        /* ── List ── */
+        .np-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        /* ── Notification item ── */
+        .np-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 16px 18px;
+          background: #0d1020;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 13px;
+          position: relative;
+          overflow: hidden;
+          transition: border-color 0.18s, transform 0.15s;
+          animation: np-in 0.3s ease both;
+        }
+
+        @keyframes np-in {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .np-item.unread {
+          background: #0f1228;
+        }
+
+        .np-item:hover {
+          border-color: rgba(255,255,255,0.13);
+          transform: translateY(-1px);
+        }
+
+        .np-item-accent {
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          width: 3px;
+          border-radius: 3px 0 0 3px;
+          opacity: 0;
+          transition: opacity 0.2s;
+        }
+
+        .np-item.unread .np-item-accent { opacity: 1; }
+
+        /* ── Type icon ── */
+        .np-type-icon {
+          width: 38px; height: 38px;
+          border-radius: 10px;
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0;
+        }
+
+        /* ── Body ── */
+        .np-body { flex: 1; min-width: 0; }
+
+        .np-msg {
+          font-size: 13.5px;
+          font-weight: 500;
+          color: #e2e8f0;
+          line-height: 1.45;
+          margin-bottom: 7px;
+        }
+
+        .np-item:not(.unread) .np-msg { color: #94a3c4; }
+
+        .np-meta {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .np-type-pill {
+          font-size: 10.5px;
+          font-weight: 700;
+          border-radius: 6px;
+          padding: 2px 8px;
+          letter-spacing: 0.3px;
+        }
+
+        .np-time {
+          font-size: 11.5px;
+          color: #4a5580;
+          font-weight: 500;
+        }
+
+        .np-unread-dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: #6366f1;
+          flex-shrink: 0;
+          animation: np-pulse 2.2s ease-in-out infinite;
+        }
+
+        @keyframes np-pulse {
+          0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+        }
+
+        /* ── Sender avatar ── */
+        .np-sender {
+          width: 30px; height: 30px;
+          border-radius: 9px;
+          background: linear-gradient(135deg, #6366f1, #8b5cf6);
+          display: flex; align-items: center; justify-content: center;
+          font-family: 'Syne', sans-serif;
+          font-size: 11px; font-weight: 700; color: #fff;
+          flex-shrink: 0;
+        }
+
+        /* ── Delete btn ── */
+        .np-del {
+          width: 30px; height: 30px;
+          display: flex; align-items: center; justify-content: center;
+          background: transparent;
+          border: 1px solid transparent;
+          color: #2d3555;
+          border-radius: 8px;
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: all 0.18s;
+        }
+
+        .np-del:hover {
+          color: #f87171;
+          background: rgba(239,68,68,0.1);
+          border-color: rgba(239,68,68,0.25);
+        }
+
+        /* ── Skeleton ── */
+        .np-skeletons { display: flex; flex-direction: column; gap: 8px; }
+
+        .np-sk-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          padding: 16px 18px;
+          background: #0d1020;
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 13px;
+        }
+
+        .sk {
+          background: linear-gradient(90deg, #141829 25%, #1c2035 50%, #141829 75%);
+          background-size: 200% 100%;
+          animation: shimmer 1.6s infinite;
+          border-radius: 6px;
+        }
+
+        @keyframes shimmer {
+          0%   { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+
+        /* ── Empty ── */
+        .np-empty {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 80px 20px;
+          text-align: center;
+        }
+
+        .np-empty-icon {
+          width: 72px; height: 72px;
+          border-radius: 20px;
+          background: rgba(99,102,241,0.12);
+          border: 1px solid rgba(99,102,241,0.2);
+          display: flex; align-items: center; justify-content: center;
+          color: #818cf8;
+          margin-bottom: 22px;
+        }
+
+        .np-empty-title {
+          font-family: 'Syne', sans-serif;
+          font-size: 19px;
+          font-weight: 700;
+          color: #e2e8f0;
+          margin-bottom: 8px;
+        }
+
+        .np-empty-sub {
+          font-size: 13.5px;
+          color: #8892b4;
+          line-height: 1.65;
+          max-width: 300px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 560px) {
+          .np-title { font-size: 22px; }
+          .np-item { padding: 13px 14px; gap: 11px; }
+          .np-controls { flex-direction: column; align-items: stretch; }
+          .np-mark-btn { justify-content: center; }
+          .np-sender { display: none; }
+        }
+      `}</style>
+
+      <div className="np-page">
+        <div className="np-glow1" /><div className="np-glow2" />
+
+        <div className="np-inner">
+          {/* ── Header ── */}
+          <div className="np-header">
+            <div className="np-top-row">
+              <div className="np-logo-row">
+                <Logo /> ProjectSync
+              </div>
+              <Link to="/dashboard" className="np-back">
+                <Icons.ArrowLeft /> Dashboard
+              </Link>
+            </div>
+
+            <div className="np-title-block">
+              <div className="np-title">
+                Notifications
+                {unreadCount > 0 && (
+                  <span className="np-unread-pill">{unreadCount}</span>
+                )}
+              </div>
+              <div className="np-sub">
                 {unreadCount > 0
                   ? `${unreadCount} unread notification${unreadCount !== 1 ? 's' : ''}`
                   : 'You\'re all caught up'}
-              </p>
+              </div>
+            </div>
+
+            <div className="np-controls">
+              <div className="np-filters">
+                <button
+                  className={`np-filter-btn${filter === 'all' ? ' active' : ''}`}
+                  onClick={() => setFilter('all')}
+                >
+                  All ({notifications.length})
+                </button>
+                <button
+                  className={`np-filter-btn${filter === 'unread' ? ' active' : ''}`}
+                  onClick={() => setFilter('unread')}
+                >
+                  Unread ({unreadCount})
+                </button>
+              </div>
+
+              {notifications.length > 0 && (
+                <button className="np-mark-btn" onClick={markAllRead}>
+                  <Icons.CheckAll />
+                  Mark all read
+                </button>
+              )}
             </div>
           </div>
-          {notifications.length > 0 && (
-            <button onClick={markAllRead} style={styles.markBtn}>
-              <CheckAllIcon />
-              Mark all read
-            </button>
-          )}
-        </div>
 
-        {/* Content */}
-        <div style={styles.content}>
+          {/* ── Content ── */}
           {loading ? (
-            <div style={styles.loadingWrapper}>
-              {[1,2,3].map(i => (
-                <div key={i} style={styles.skeletonItem}>
-                  <div style={styles.skeletonIcon} />
-                  <div style={styles.skeletonText}>
-                    <div style={{ ...styles.skeletonLine, width: '60%' }} />
-                    <div style={{ ...styles.skeletonLine, width: '40%', marginTop: '6px', height: '10px' }} />
+            <div className="np-skeletons">
+              {[...Array(4)].map((_, i) => (
+                <div className="np-sk-item" key={i}>
+                  <div className="sk" style={{ width: 38, height: 38, borderRadius: 10, flexShrink: 0 }} />
+                  <div style={{ flex: 1 }}>
+                    <div className="sk" style={{ height: 13, width: '65%', marginBottom: 8 }} />
+                    <div className="sk" style={{ height: 10, width: '40%' }} />
                   </div>
+                  <div className="sk" style={{ width: 30, height: 30, borderRadius: 9, flexShrink: 0 }} />
                 </div>
               ))}
             </div>
-          ) : notifications.length === 0 ? (
-            <div style={styles.emptyState}>
-              <div style={styles.emptyIcon}>
-                <BellIcon />
+
+          ) : displayed.length === 0 ? (
+            <div className="np-empty">
+              <div className="np-empty-icon">
+                <Icons.Bell />
               </div>
-              <h3 style={styles.emptyTitle}>No notifications</h3>
-              <p style={styles.emptyText}>
-                You'll see activity here when team members interact with your projects.
-              </p>
+              <div className="np-empty-title">
+                {filter === 'unread' ? 'No unread notifications' : 'No notifications yet'}
+              </div>
+              <div className="np-empty-sub">
+                {filter === 'unread'
+                  ? 'Switch to "All" to see your notification history.'
+                  : 'Activity from your projects and team will appear here.'}
+              </div>
             </div>
+
           ) : (
-            <div style={styles.list}>
-              {notifications.map((n, idx) => {
-                const config = typeConfig[n.type] || typeConfig.card_assigned
+            <div className="np-list">
+              {displayed.map((n, idx) => {
+                const cfg = typeConfig[n.type] || typeConfig.card_assigned
                 return (
                   <div
                     key={n._id}
-                    style={{
-                      ...styles.item,
-                      background: n.isRead ? '#1a1d2e' : '#1c2040',
-                      borderLeft: n.isRead ? '3px solid transparent' : `3px solid ${config.color}`,
-                    }}
+                    className={`np-item${n.isRead ? '' : ' unread'}`}
+                    style={{ animationDelay: `${idx * 0.04}s` }}
                   >
+                    {/* Left accent bar */}
+                    <div
+                      className="np-item-accent"
+                      style={{ background: cfg.color }}
+                    />
+
                     {/* Type icon */}
-                    <div style={{ ...styles.typeIcon, background: config.bg, color: config.color }}>
-                      {config.icon}
+                    <div
+                      className="np-type-icon"
+                      style={{ background: cfg.bg, color: cfg.color }}
+                    >
+                      {cfg.icon}
                     </div>
 
-                    {/* Message + meta */}
-                    <div style={styles.itemBody}>
-                      <p style={styles.itemMsg}>{n.message}</p>
-                      <div style={styles.itemMeta}>
-                        <span style={{ ...styles.typePill, background: config.bg, color: config.color }}>
-                          {config.label}
+                    {/* Body */}
+                    <div className="np-body">
+                      <div className="np-msg">{n.message}</div>
+                      <div className="np-meta">
+                        <span
+                          className="np-type-pill"
+                          style={{ background: cfg.bg, color: cfg.color }}
+                        >
+                          {cfg.label}
                         </span>
-                        <span style={styles.timeText}>
-                          {timeAgo(n.createdAt)}
-                        </span>
-                        {!n.isRead && <span style={styles.unreadDot} />}
+                        <span className="np-time">{timeAgo(n.createdAt)}</span>
+                        {!n.isRead && <span className="np-unread-dot" />}
                       </div>
                     </div>
 
                     {/* Sender avatar */}
                     {n.sender && (
-                      <div style={styles.senderAvatar} title={n.sender.name}>
+                      <div className="np-sender" title={n.sender.name}>
                         {n.sender.name?.charAt(0).toUpperCase()}
                       </div>
                     )}
 
                     {/* Delete */}
                     <button
+                      className="np-del"
                       onClick={() => deleteNotif(n._id)}
-                      style={styles.deleteBtn}
                       title="Dismiss"
                     >
-                      <TrashIcon />
+                      <Icons.Trash />
                     </button>
                   </div>
                 )
@@ -216,270 +644,7 @@ export default function NotificationsPage() {
             </div>
           )}
         </div>
-      </main>
-    </div>
+      </div>
+    </>
   )
-}
-
-const styles = {
-  page: {
-    display: 'flex',
-    minHeight: '100vh',
-    background: '#0f1117',
-    fontFamily: "'Segoe UI', sans-serif",
-  },
-
-  // Sidebar
-  sidebar: {
-    width: '240px',
-    minWidth: '240px',
-    background: '#1a1d2e',
-    borderRight: '1px solid #2d3148',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '24px 0',
-    position: 'sticky',
-    top: 0,
-    height: '100vh',
-  },
-  logo: {
-    color: '#6366f1',
-    fontSize: '20px',
-    fontWeight: '700',
-    padding: '0 24px 28px',
-    letterSpacing: '-0.3px',
-  },
-  nav: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '2px',
-    padding: '0 12px',
-  },
-  navItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    padding: '10px 12px',
-    borderRadius: '8px',
-    color: '#64748b',
-    fontSize: '14px',
-    fontWeight: '500',
-    textDecoration: 'none',
-    transition: 'all 0.15s',
-  },
-  navItemActive: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    padding: '10px 12px',
-    borderRadius: '8px',
-    color: '#f1f5f9',
-    fontSize: '14px',
-    fontWeight: '600',
-    background: 'rgba(99,102,241,0.12)',
-  },
-  badge: {
-    marginLeft: 'auto',
-    background: '#6366f1',
-    color: '#fff',
-    borderRadius: '10px',
-    padding: '1px 7px',
-    fontSize: '11px',
-    fontWeight: '700',
-  },
-
-  // Main area
-  main: {
-    flex: 1,
-    padding: '40px',
-    maxWidth: '860px',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: '32px',
-    gap: '16px',
-  },
-  headerLeft: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '8px',
-  },
-  backLink: {
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: '6px',
-    color: '#475569',
-    fontSize: '13px',
-    fontWeight: '500',
-    textDecoration: 'none',
-    marginBottom: '4px',
-  },
-  title: {
-    color: '#f1f5f9',
-    fontSize: '28px',
-    fontWeight: '700',
-    letterSpacing: '-0.5px',
-    margin: 0,
-  },
-  subtitle: {
-    color: '#475569',
-    fontSize: '14px',
-    margin: 0,
-    marginTop: '4px',
-  },
-  markBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '7px',
-    background: 'transparent',
-    border: '1px solid #2d3148',
-    color: '#94a3b8',
-    borderRadius: '8px',
-    padding: '9px 16px',
-    fontSize: '13px',
-    fontWeight: '500',
-    cursor: 'pointer',
-    flexShrink: 0,
-    marginTop: '28px',
-  },
-
-  // Content
-  content: { width: '100%' },
-
-  // Loading skeletons
-  loadingWrapper: { display: 'flex', flexDirection: 'column', gap: '10px' },
-  skeletonItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '14px',
-    padding: '18px',
-    background: '#1a1d2e',
-    borderRadius: '12px',
-    border: '1px solid #2d3148',
-    animation: 'pulse 1.5s infinite',
-  },
-  skeletonIcon: {
-    width: '38px', height: '38px', borderRadius: '10px',
-    background: '#252840', flexShrink: 0,
-  },
-  skeletonText: { flex: 1 },
-  skeletonLine: {
-    height: '13px', background: '#252840', borderRadius: '6px',
-  },
-
-  // Empty state
-  emptyState: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '80px 20px',
-    textAlign: 'center',
-  },
-  emptyIcon: {
-    width: '64px',
-    height: '64px',
-    borderRadius: '16px',
-    background: 'rgba(99,102,241,0.12)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#6366f1',
-    marginBottom: '20px',
-    transform: 'scale(1.5)',
-  },
-  emptyTitle: {
-    color: '#f1f5f9',
-    fontSize: '20px',
-    fontWeight: '700',
-    margin: '0 0 10px',
-  },
-  emptyText: {
-    color: '#475569',
-    fontSize: '14px',
-    lineHeight: '1.6',
-    maxWidth: '320px',
-  },
-
-  // Notification list
-  list: { display: 'flex', flexDirection: 'column', gap: '8px' },
-  item: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '14px',
-    padding: '16px 18px',
-    borderRadius: '12px',
-    border: '1px solid #2d3148',
-    transition: 'background 0.15s',
-    position: 'relative',
-  },
-  typeIcon: {
-    width: '38px',
-    height: '38px',
-    borderRadius: '10px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  },
-  itemBody: { flex: 1, minWidth: 0 },
-  itemMsg: {
-    color: '#e2e8f0',
-    fontSize: '14px',
-    fontWeight: '500',
-    lineHeight: '1.4',
-    margin: '0 0 6px',
-  },
-  itemMeta: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '8px',
-    flexWrap: 'wrap',
-  },
-  typePill: {
-    borderRadius: '6px',
-    padding: '2px 8px',
-    fontSize: '11px',
-    fontWeight: '600',
-    letterSpacing: '0.3px',
-  },
-  timeText: {
-    color: '#475569',
-    fontSize: '12px',
-  },
-  unreadDot: {
-    width: '6px',
-    height: '6px',
-    borderRadius: '50%',
-    background: '#6366f1',
-    flexShrink: 0,
-  },
-  senderAvatar: {
-    width: '32px',
-    height: '32px',
-    borderRadius: '50%',
-    background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: '#fff',
-    fontSize: '13px',
-    fontWeight: '700',
-    flexShrink: 0,
-  },
-  deleteBtn: {
-    background: 'transparent',
-    border: 'none',
-    color: '#334155',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '6px',
-    borderRadius: '6px',
-    flexShrink: 0,
-    transition: 'color 0.15s',
-  },
 }
